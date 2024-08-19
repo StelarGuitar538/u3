@@ -1,4 +1,4 @@
-from ejercicio4.nodo import Nodo
+from nodo import Nodo
 
 class Pila:
     def __init__(self):

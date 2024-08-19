@@ -1,4 +1,4 @@
-from ejercicio4.pila import Pila
+from pila import Pila
 
 def decimalABinario(pila, decimal):
     if decimal == 0:

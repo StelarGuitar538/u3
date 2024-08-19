@@ -1,4 +1,4 @@
-from ejercicio4.nodo import Nodo
+from nodo import Nodo
 
 class Lista:
     def __init__(self):
