@@ -1,4 +1,4 @@
-from nodo import Nodo
+from ejercicio4.nodo import Nodo
 
 class Pila:
     def __init__(self):
@@ -23,22 +23,7 @@ class Pila:
         self.__cant -= 1
         return valor
     
-    def decimalABinario(self, x):
-        if x == 0:
-            return "0"
-            
-        entero = int(x)
-            
-        while entero > 0:
-            residuo = entero % 2
-            self.insertar(residuo)
-            entero //= 2  # corregido para actualizar 'entero'
-            
-        binario = ""  # debe estar fuera del bucle anterior
-        while not self.vacia():
-            binario += str(self.suprimir())  # reconstruir el número binario
-            
-        return binario[::-1]  # devolver el binario en el orden correcto
+   
 
             
     
