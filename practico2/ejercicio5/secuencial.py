@@ -4,6 +4,7 @@ class colaSecuencial:
     __cant: int
     __pr: int
     __ult: int
+    __max: int
     __items: object
     
     def __init__(self, max=5):
