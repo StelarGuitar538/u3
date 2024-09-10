@@ -3,11 +3,14 @@ class Nodo:
         self.dato = dato
         self.siguiente = None
 
-    def getDato(self):
+    def get_dato(self):
         return self.dato
 
-    def getSiguiente(self):
+    def get_siguiente(self):
         return self.siguiente
     
-    def setSiguiente(self, siguiente):
+    def set_siguiente(self, siguiente):
         self.siguiente = siguiente
+        
+    def set_dato(self, dato):
+        self.dato = dato

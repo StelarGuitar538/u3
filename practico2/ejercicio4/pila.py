@@ -21,12 +21,12 @@ class Pila:
             return dato
         
     def mostrarContenido(self):
-        contenido = []
         actual = self.__cabeza
-        while actual is not None:
-            contenido.append(actual.getDato())
+        c = 0
+        while actual != None:
+            c += 1
             actual = actual.getSiguiente()
-        return contenido[::-1]  # invertir para mostrar de base a tope
+        return c
     
     def verTope(self):
         if self.vacia():

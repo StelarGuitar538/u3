@@ -1,72 +1,51 @@
 from pila import Pila
 
-def mostrarTorres(t1, t2, t3):
-    print("Torre 1:", t1.mostrarContenido())
-    print("Torre 2:", t2.mostrarContenido())
-    print("Torre 3:", t3.mostrarContenido())
-    print()
 
-def esMovimientoValido(origen, destino):
+def moverDiscos(origen, destino):
     if origen.vacia():
-        return False, "La torre de origen está vacía."
+        print("La pila esta vacia")
+        return False
     if not destino.vacia() and origen.verTope() > destino.verTope():
-        return False, "No puedes mover un disco más grande sobre uno más pequeño."
-    return True, ""
-
-def moverDisco(origen, destino):
+        print("No se puede mover el disco")
+        return False
     disco = origen.eliminar()
     destino.insertar(disco)
+    return True
+    
+def main(n):
+    p1 = Pila()
+    p2 = Pila()
+    p3 = Pila()
+    
+    for i in range(n, 0, -1):
+        p1.insertar(i)
 
-def main():
-    torre1 = Pila()
-    torre2 = Pila()
-    torre3 = Pila()
+    jugadas = 0
+    minJugadas = (n**2)-1
     
-    piezas = int(input("Ingrese el número de piezas: "))
-    
-    # Colocar las piezas en la torre 1
-    for i in range(piezas, 0, -1):
-        torre1.insertar(i)
-    
-    # Mostrar el estado inicial del juego
-    mostrarTorres(torre1, torre2, torre3)
-    
-    movimientos = 0
-    while not torre1.vacia() or not torre2.vacia():
-        origen = int(input("Ingrese la torre de origen (1, 2 o 3): "))
-        destino = int(input("Ingrese la torre de destino (1, 2 o 3): "))
-        
+    while p3.mostrarContenido() != n:
+        origen = int(input("ingrese pila origen: "))
+        destino = int(input("ingrese pila destino: "))
         if origen == 1:
-            torre_origen = torre1
+            origen = p1
         elif origen == 2:
-            torre_origen = torre2
+            origen = p2
         elif origen == 3:
-            torre_origen = torre3
-        else:
-            print("Torre de origen inválida.")
-            continue
-        
+            origen = p3
+            
         if destino == 1:
-            torre_destino = torre1
+            destino = p1
         elif destino == 2:
-            torre_destino = torre2
+            destino = p2
         elif destino == 3:
-            torre_destino = torre3
-        else:
-            print("Torre de destino inválida.")
-            continue
+            destino = p3
+            
+        if moverDiscos(origen, destino):
+            jugadas += 1
         
-        valido, mensaje = esMovimientoValido(torre_origen, torre_destino)
-        if valido:
-            moverDisco(torre_origen, torre_destino)
-            movimientos += 1
-        else:
-            print(mensaje)
-        
-        mostrarTorres(torre1, torre2, torre3)
+    print(f"El numero de jugadas minimo es {minJugadas} y el numero de jugadas que hizo fue {jugadas}")
     
-    print(f"Juego terminado en {movimientos} movimientos.")
-    print(f"El número mínimo de movimientos posibles es {2**piezas - 1}.")
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": 
+    n= int(input("ingrese cantidad de discos: "))
+    main(n)
+    
