@@ -1,167 +1,194 @@
 from nodo import Nodo
-class listaEncadenada:
-    __cabeza:Nodo
-    __cont:int
 
-    def _init_(self):
-        self.__cabeza=None
-        self.__cont=0
+class ListaEncadenada:
+    def __init__(self):
+        self.__cabeza = None
+        self.__cont = 0
 
     def vacia(self):
-        return self.__cont==0
-    
-    def primerElemento(self):
-        return self.__cabeza.getDato()
-    def ultimoElemento(self):
-        aux=self.__cabeza
-        while aux != None:
-            retorna=aux.getDato()
-            aux=aux.getSiguiente()
-        return retorna
-    
-    def anterior(self,pos):
-        elemento=None   
-        if pos>=0 and pos<self.__cont:
-            if pos==0:
-                print("El indice ingresado no cuenta con anterior; es el primero")
-            else:
-                i=0
-                aux=self.__cabeza
-                while i<pos-1:
-                    aux=aux.getSiguiente()
-                    i+=1
-                elemento=aux.getDato()
-        else:
-            print("El indice ingresado no es valido")
-        return elemento
-    
-    def siguiente(self,pos):
-        elemento=None
-        if pos>=0 and pos<self.__cont:
-            if pos==self.__cont-1:
-                print("El indice ingresado no cuenta con siguiente; es el ultimo")
-            else:
-                i=0
-                aux=self.__cabeza
-                while i<=pos:
-                    aux=aux.getSiguiente()
-                    i+=1
-                elemento=aux.getDato()
-        else:
-            print("El indice ingresado no es valido")
-        return elemento
+        return self.__cont == 0
 
     def insertar(self, dato, posicion):
-        nuevoNodo=Nodo(dato)
-        if posicion >= 0 and posicion <= self.__cont:            
-        
-            if posicion==0:
+        nuevoNodo = Nodo(dato)
+        if posicion >= 0 and posicion <= self.__cont:
+            if posicion == 0:
                 nuevoNodo.setSiguiente(self.__cabeza)
-                self.__cabeza=nuevoNodo
-                self.__cont+=1  
-
+                self.__cabeza = nuevoNodo
             else:
-                actual=self.__cabeza
-                indice=0
-
-                while actual != None and indice < posicion-1:
-                    actual=actual.getSiguiente()
-                    indice += 1
-
-                if actual is None:
-                    print("Indice fuera de rango")
-                    return
-                else:
-                    nuevoNodo.setSiguiente(actual.getSiguiente())
-                    actual.setSiguiente(nuevoNodo)
-                    self.__cont+=1
-        else:
-            print("Indice fuera de rango")
-            return
-
-    def suprimir(self,posicion):
-        if self.vacia():
-            print("La lista se encuentra vacia")
-        else:
-            if posicion>=0 and posicion<self.__cont:
-                actual=self.__cabeza
-                elemento=None
-
-                if posicion==0:
-                    self.__cabeza=actual.getSiguiente()
-                else:
-                    anterior=actual
-                    actual=actual.getSiguiente()
-                    i=1
-                    while i<posicion:
-                        anterior=actual
-                        actual=actual.getSiguiente()
-                        i+=1
-                    anterior.setSiguiente(actual.getSiguiente())
-                self.__cont-=1
-                elemento=actual.getDato()
-            return elemento
-        
-    def buscar(self,dato):
-        aux=self.__cabeza
-        band=False
-        pos=None
-        i=0
-        while aux is not None and band is False:
-            if aux.getDato() == dato:
-                band=True
-                pos=i
-            else:
-                i+=1
-                aux=aux.getSiguiente()
-        if band is False:
-            print(f"El elemento {dato} no se encuentra en la lista")
-        return pos
-
-    def recuperar(self,pos):
-        aux=self.__cabeza
-        i=0
-        if pos>=0 and pos<self.__cont:
-            while i!=pos:
-                aux=aux.getSiguiente()
-                i+=1
-            elemento=aux.getDato()
-        else:
-            elemento=None
-            print("El indice ingresado no es valido")
-        return elemento
-
-    def mostrar(self):
-        actual=self.__cabeza
-        esPrimero=True
-        while actual is not None:
-            if esPrimero==True:
-                print(f"{actual.getDato()}", end="")
-                esPrimero=False
-            else:
-                print(f", {actual.getDato()}", end="")
-            actual=actual.getSiguiente()
-        print("")
+                actual = self.__cabeza
+                for _ in range(posicion - 1):
+                    actual = actual.getSiguiente()
                 
+                nuevoNodo.setSiguiente(actual.getSiguiente())
+                actual.setSiguiente(nuevoNodo)
+                
+            self.__cont += 1
+        else:
+            print("Índice fuera de rango")
 
-if __name__=="__main__":
-    lista = listaEncadenada()
-    print("prueba")
-    lista.insertar(10,0)
-    lista.insertar(5,1)
-    lista.insertar(15,2)
-    lista.insertar(7,3)
-    print("\nLista de elementos: ")
+    def suprimir(self, posicion):
+        if self.vacia():
+            print("La lista se encuentra vacía")
+            return None
+        elif posicion < 0 or posicion >= self.__cont:
+            print("Índice fuera de rango")
+            return None
+
+        if posicion == 0:
+            elemento = self.__cabeza.getDato()
+            self.__cabeza = self.__cabeza.getSiguiente()
+        else:
+            anterior = self.__cabeza
+            actual = anterior.getSiguiente()
+            for _ in range(1, posicion):
+                anterior = actual
+                actual = actual.getSiguiente()
+
+            elemento = actual.getDato()
+            anterior.setSiguiente(actual.getSiguiente())
+
+        self.__cont -= 1
+        return elemento
+    
+    def insertarPorContenido(self, dato):
+        nuevoNodo = Nodo(dato)
+        if self.vacia():
+            # Si la lista está vacía, simplemente se agrega como cabeza
+            self.__cabeza = nuevoNodo
+        else:
+            # Caso cuando hay que insertar en la posición correcta
+            actual = self.__cabeza
+            anterior = None
+            # Recorrer hasta encontrar la posición correcta para insertar
+            while actual is not None and actual.getDato() < dato:
+                anterior = actual
+                actual = actual.getSiguiente()
+            
+            if anterior is None:
+                # Insertar al principio si es el menor elemento
+                nuevoNodo.setSiguiente(self.__cabeza)
+                self.__cabeza = nuevoNodo
+            else:
+                # Insertar en la posición encontrada
+                nuevoNodo.setSiguiente(actual)
+                anterior.setSiguiente(nuevoNodo)
+        
+        self.__cont += 1
+        print(f"Elemento insertado: {dato}")
+
+    def suprimirPorContenido(self, dato):
+        if self.vacia():
+            print("Lista vacía")
+            return False
+        
+        actual = self.__cabeza
+        anterior = None
+        
+        # Buscar el nodo con el dato
+        while actual is not None and actual.getDato() != dato:
+            anterior = actual
+            actual = actual.getSiguiente()
+        
+        # Si el nodo fue encontrado
+        if actual is not None:
+            if anterior is None:
+                # Si el nodo a eliminar es el primero
+                self.__cabeza = actual.getSiguiente()
+            else:
+                # Si el nodo a eliminar no es el primero
+                anterior.setSiguiente(actual.getSiguiente())
+            
+            self.__cont -= 1
+            print(f"Elemento eliminado: {dato}")
+            return True
+        else:
+            print(f"El elemento {dato} no se encuentra en la lista")
+            return False
+    
+    def mostrar(self):
+        actual = self.__cabeza
+        while actual is not None:
+            print(f"{actual.getDato()}", end="->")
+            actual = actual.getSiguiente()
+        print("None")
+
+    def buscar(self, dato):
+        aux = self.__cabeza
+        pos = 0
+        while aux is not None:
+            if aux.getDato() == dato:
+                return pos
+            aux = aux.getSiguiente()
+            pos += 1
+        print(f"El elemento {dato} no se encuentra en la lista")
+        return -1
+
+    def primerElemento(self):
+        if self.__cabeza is not None:
+            return self.__cabeza.getDato()
+        else:
+            print("La lista está vacía")
+            return None
+
+    def ultimoElemento(self):
+        aux = self.__cabeza
+        if aux is None:
+            print("La lista está vacía")
+            return None
+        
+        while aux.getSiguiente() is not None:
+            aux = aux.getSiguiente()
+        return aux.getDato()
+    
+    def anterior(self, pos):
+        if pos <= 0 or pos >= self.__cont:
+            print("El índice ingresado no es válido o es el primero (no tiene anterior).")
+            return None
+        
+        aux = self.__cabeza
+        for _ in range(pos - 1):
+            aux = aux.getSiguiente()
+        
+        return aux.getDato()
+    
+    def siguiente(self, pos):
+        if pos < 0 or pos >= self.__cont - 1:
+            print("El índice ingresado no es válido o es el último (no tiene siguiente).")
+            return None
+        
+        aux = self.__cabeza
+        for _ in range(pos + 1):
+            aux = aux.getSiguiente()
+        
+        return aux.getDato()
+
+    def recuperar(self, pos):
+        if pos < 0 or pos >= self.__cont:
+            print("Índice fuera de rango")
+            return None
+
+        aux = self.__cabeza
+        for _ in range(pos):
+            aux = aux.getSiguiente()
+        
+        return aux.getDato()
+
+
+if __name__ == "__main__":
+    lista = ListaEncadenada()
+    lista.insertar(10, 0)
+    lista.insertar(5, 1)
+    lista.insertar(15, 2)
+    lista.insertar(7, 3)
     lista.mostrar()
-    print("Desplazamientos")
-    lista.insertar(15,0)
-    lista.insertar(7,1)
+    lista.insertar(15, 0)
+    lista.insertar(7, 1)
     lista.mostrar()
     print(f"El primer elemento es: {lista.primerElemento()}")
-    print(f"El ultimo elemento es: {lista.ultimoElemento()}")
+    print(f"El último elemento es: {lista.ultimoElemento()}")
     print(f"Se elimina el {lista.suprimir(0)}")
     lista.mostrar()
-    print(f"El elemento 10 está en la posicion {lista.buscar(10)}")
+    print(f"El elemento 10 está en la posición {lista.buscar(10)}")
     print(f"En la posición 2 se encuentra el elemento {lista.recuperar(2)}")
-    print(f"El elemento siguiente a la posicion 2 es el {lista.siguiente(2)}")
-    print(f"El elemento anterior a la posicion 1 es el {lista.anterior(1)}")
+    print(f"El elemento siguiente a la posición 2 es el {lista.siguiente(2)}")
+    print(f"El elemento anterior a la posición 1 es el {lista.anterior(1)}")

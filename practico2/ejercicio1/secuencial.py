@@ -9,6 +9,9 @@ class Pila:
     def vacia(self):
         return self.__tope == -1
     
+    def lleno(self):
+        return self.__tope == self.__cant
+    
     def insertar(self, x):
         if self.__tope < self.__cant - 1:
             self.__tope += 1
