@@ -20,7 +20,7 @@ class ListaSecuencial:
                 while i > posicion:
                     self.__arreglo[i] = self.__arreglo[i - 1]
                     i -= 1
-                self.__arreglo[posicion] = dato  # Mueve esta línea fuera del bucle while
+                self.__arreglo[posicion] = dato  
                 self.__ultimo += 1
                 self.__cantidad += 1
             else:

@@ -22,7 +22,6 @@ class Cola:
         else:
             self.__ult.setSiguiente(nuevo)
             self.__ult = nuevo
-            self.__ult.setSiguiente(None)
         self.__cant += 1
         
     def suprimir(self):
@@ -35,7 +34,23 @@ class Cola:
             self.__cant -= 1
             return x
         
-    def mostrar(self, primero):
-        if primero != None:
-            print(primero.getDato())
-            self.mostrar(primero.getSiguiente())
+    def mostrar(self):
+        actual = self.__pr
+        if self.vacia():
+            print("Cola vacía")
+        else:
+            while actual is not None:
+                print(actual.getDato(), end=' ')
+                actual = actual.getSiguiente()
+            print()  # Para nueva línea después de imprimir todos los elementos
+
+            
+if __name__ == "__main__":
+    c = Cola()
+    c.insertar(1)
+    c.insertar(2)
+    c.insertar(3)
+    c.mostrar()
+    c.suprimir()
+    c.suprimir()
+    c.mostrar()

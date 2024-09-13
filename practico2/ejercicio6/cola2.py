@@ -2,13 +2,13 @@ from nodo import Nodo
 
 class Cola:
     __cant: int
-    __pr: Nodo
     __ult: Nodo
+    __pr: Nodo
     
     def __init__(self):
         self.__cant = 0
-        self.__pr = None
         self.__ult = None
+        self.__pr = None
         
     def vacia(self):
         return self.__cant == 0
@@ -17,17 +17,25 @@ class Cola:
         nuevo = Nodo(x)
         if self.vacia():
             nuevo.setSiguiente(None)
-            self.__pr = nuevo
-            self.__ult = nuevo
+            self.__ult = None
+            self.__pr = None
         else:
-            nuevo.setSiguiente(nuevo)
+            self.__ult.setSiguiente(nuevo)
             self.__ult = nuevo
-            nuevo.setSiguiente(None)
-            self.__cant +=1
-            
+        self.__cant +=1
+        
     def suprimir(self):
         if not self.vacia():
             x = self.__pr.getDato()
             self.__pr = self.__pr.getSiguiente()
             self.__cant -=1
             return x
+        
+    def mostrar(self):
+        actual = self.__pr
+        if not self.vacia():
+            while actual is not None:
+                print(actual.getDato(), end=' ')
+                actual = actual.getSiguiente()
+            print()
+            

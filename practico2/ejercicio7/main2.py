@@ -6,33 +6,40 @@ def main():
     c2 = Cola()
     c3 = Cola()
     
-    frecuencia1 = 5
-    frecuencia2 = 3
-    frecuencia3 = 4
-    tpll = 2
-    ts = 120
+    fre1 = 5
+    fre2 = 3
+    fre3  =4
+    
+    tac = 2
+    tms = 120
+    
+    cajero1 = 0
+    cajero2 = 0
+    cajero3 = 0
     
     reloj = 0
+    sa = 0
     acum = 0
-    cant = 0
-    sinAtender = 0
+    cont = 0
     lista = []
     
-    def elegirCajero(c1, c2, c3, reloj):
+    
+    def elegirCajero(c1, c2, c3):
         if c1.vacia() and c2.vacia() and c3.vacia():
-            aleatorio = random.random()
-            if aleatorio <= 0.33:
+            a = random.random()
+            if a <= 0.33:
                 return c1
-            elif aleatorio <= 0.66:
+            elif a <= 0.66:
                 return c2
             else:
                 return c3
         else:
             colas = [c1, c2, c3]
             ordenada = sorted(colas, key=lambda x: x.tamanio())
-            minTamanio = ordenada[0].tamanio()
-            posiblesColas = [cola for cola in colas if cola.tamanio() == minTamanio]
+            mintamanio = ordenada[0].tamanio()
+            posibleCola = [cola for cola in colas if cola.tamanio() == mintamanio]
             
-            if len(posiblesColas) > 1:
-                return random.choice(pos)
-    
+            if len(posibleCola) > 1:
+                return random.choice(posibleCola)
+            else:
+                return posibleCola[0]

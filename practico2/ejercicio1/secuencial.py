@@ -10,7 +10,7 @@ class Pila:
         return self.__tope == -1
     
     def lleno(self):
-        return self.__tope == self.__cant
+        return self.__tope == self.__cant -1
     
     def insertar(self, x):
         if self.__tope < self.__cant - 1:
